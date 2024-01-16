@@ -16,7 +16,7 @@ def run_game():
     alien = Alien(ai_settings, screen)
     bullets = Group()
     aliens = Group()
-    gf.create_fleet(ai_settings,screen,aliens)
+    gf.create_fleet(ai_settings, screen, ship, aliens)
     running = True
     while running:
         gf.check_events(ai_settings, screen, ship, bullets)  # 监视键盘和鼠标事件
