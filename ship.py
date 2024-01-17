@@ -18,9 +18,11 @@ class Ships:
         self.moving_right = False
         self.moving_left = False
 
-
     def blitme(self):  # 指定位置绘制飞船
         self.screen.blit(self.image, self.rect)
+
+    def center_ship(self):
+        self.center = self.screen_rect.centerx
 
     def update(self):
         # 根据移动标志、判断是否在屏幕之内，移动飞船
