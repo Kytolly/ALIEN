@@ -22,7 +22,7 @@ def check_keyup_events(event, ship):
         ship.moving_left = False
 
 
-def update_bullets(aliens, bullets):
+def update_bullets(ai_settings, screen, ship, aliens, bullets):
     bullets.update()  # 更新子弹的位置
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
@@ -30,6 +30,9 @@ def update_bullets(aliens, bullets):
             # print(len(bullets))
     # 子弹和alien的碰撞检测
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
+    if len(aliens) == 0: # 删除现有子弹创建新的外星人
+        bullets.empty()
+        create_fleet(ai_settings, screen, ship, aliens)
 
 
 def fire_bullets(ai_settings, screen, ship, bullets):  # 若没有达到限制，就发射子弹
