@@ -11,7 +11,7 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets):
         ship.moving_left = True
     elif event.key == pygame.K_SPACE:  # 发射子弹
         fire_bullets(ai_settings, screen, ship, bullets)
-    elif event.key == pygame.K_TAB or event.key == pygame.K_q:  # 快捷键退出
+    elif event.key == pygame.K_ESCAPE or event.key == pygame.K_q:  # 快捷键退出
         sys.exit()
 
 
@@ -22,12 +22,14 @@ def check_keyup_events(event, ship):
         ship.moving_left = False
 
 
-def update_bullets(bullets):
+def update_bullets(aliens, bullets):
     bullets.update()  # 更新子弹的位置
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)  # 删除消失的子弹
             # print(len(bullets))
+    # 子弹和alien的碰撞检测
+    collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
 
 
 def fire_bullets(ai_settings, screen, ship, bullets):  # 若没有达到限制，就发射子弹
