@@ -64,12 +64,15 @@ def check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets):  # �
 
 
 def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):  # 响应飞船被撞击
-    stats.ship_left -= 1
-    aliens.empty()
-    bullets.empty()
-    create_fleet(ai_settings, screen, ship, aliens) # 创建一群新的外星人
-    ship.center_ship()  # 飞船重置在底部中间
-    sleep(0.5)  # 单位:s
+    if stats.ship_left > 0 :
+        stats.ship_left -= 1
+        aliens.empty()
+        bullets.empty()
+        create_fleet(ai_settings, screen, ship, aliens) # 创建一群新的外星人
+        ship.center_ship()  # 飞船重置在底部中间
+        sleep(0.5)  # 单位:s
+    else:
+        stats.game_active = False
 
 
 def create_fleet(ai_settings, screen, ship, aliens):

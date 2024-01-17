@@ -1,6 +1,7 @@
 class GameStats():
     def __init__(self, ai_settings):
         self.ai_settings = ai_settings
+        self.game_active = True
         self.reset_stats()
 
     def reset_stats(self):  # 游戏中可能变化的统计信息

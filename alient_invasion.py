@@ -8,10 +8,9 @@ from game_stats import GameStats
 
 
 def run_game():
-    # 元组(1200,800)初始化游戏，创建屏幕对象
-    pygame.init()
+    pygame.init()  # 元组(1200,800)初始化游戏，创建屏幕对象
     ai_settings = Settings()
-    # ai_settings.bullet_width = 1000
+    # ai_settings.bullet_width = 1000  # 测试代码取消注释
     screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
     pygame.display.set_caption("ALIEN INVASION")  # 设置标题
     stats = GameStats(ai_settings)  # 存储游戏进行时的统计信息
@@ -20,12 +19,12 @@ def run_game():
     bullets = Group()
     aliens = Group()
     gf.create_fleet(ai_settings, screen, ship, aliens)
-    running = True
-    while running:
+    while True:
         gf.check_events(ai_settings, screen, ship, bullets)  # 监视键盘和鼠标事件
-        ship.update()
-        gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
-        gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
+        if stats.game_active:
+            ship.update()
+            gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
+            gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
         gf.update_screen(ai_settings, screen, ship, aliens, bullets)
 
 
