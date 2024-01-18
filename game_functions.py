@@ -3,9 +3,10 @@ import pygame
 from bullet import Bullet
 from alien import Alien
 from time import sleep
+import json
 
 
-def check_keydown_events(event, ai_settings, screen, ship, bullets):
+def check_keydown_events(event, ai_settings, screen, stats, ship, bullets):
     if event.key == pygame.K_RIGHT:
         ship.moving_right = True
     elif event.key == pygame.K_LEFT:
@@ -13,6 +14,7 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets):
     elif event.key == pygame.K_SPACE:  # 发射子弹
         fire_bullets(ai_settings, screen, ship, bullets)
     elif event.key == pygame.K_ESCAPE or event.key == pygame.K_q:  # 快捷键退出
+        update_history(stats)
         sys.exit()
 
 
@@ -125,9 +127,10 @@ def creat_alien(ai_settings, screen, aliens, alien_number, row_number):
 def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            update_history(stats)
             sys.exit()
         elif event.type == pygame.KEYDOWN:
-            check_keydown_events(event, ai_settings, screen, ship, bullets)
+            check_keydown_events(event, ai_settings, screen, stats, ship, bullets)
         elif event.type == pygame.KEYUP:
             check_keyup_events(event, ship)
         elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -186,3 +189,9 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_bu
     if not stats.game_active:
         play_button.draw_button()  # 如果游戏处于非活动状态，绘制按钮
     pygame.display.flip()  # 让最近的绘制屏幕可见:每执行一个while都会绘制一个屏幕擦去旧屏幕
+
+
+def update_history(stats):
+    data = "data.json"
+    with open(data, 'w') as db:
+        json.dump(stats.high_score, db)
