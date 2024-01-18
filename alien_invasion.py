@@ -12,7 +12,7 @@ from scoreboard import ScoreBoard
 def run_game():
     pygame.init()  # 元组(1200,800)初始化游戏，创建屏幕对象
     ai_settings = Settings()
-    # ai_settings.bullet_width = 1000  # 测试代码取消注释
+    # ai_settings.bullet_width = 1200  # 测试代码取消注释
     screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
     pygame.display.set_caption("ALIEN INVASION")  # 设置标题
     play_button = Button(ai_settings, screen, "Play")

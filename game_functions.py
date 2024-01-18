@@ -33,7 +33,7 @@ def update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets):
 
 
 def check_bullet_alien_collision(ai_settings, screen, stats, sb, ship, aliens, bullets):
-    # 子弹和alien的碰撞检测
+    # 子弹和alien的碰撞检测,collisions是子弹-alien字典
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
     if len(aliens) == 0:  # 删除现有子弹创建新的外星人
         bullets.empty()
@@ -41,8 +41,10 @@ def check_bullet_alien_collision(ai_settings, screen, stats, sb, ship, aliens, b
         create_fleet(ai_settings, screen, ship, aliens)
 
     if collisions:
-        stats.score += ai_settings.alien_points
-        sb.prep_score()
+        for aliens in collisions.values():
+            stats.score += ai_settings.alien_points * len(aliens)
+            sb.prep_score()
+        check_high_score(stats, sb)
 
 
 def fire_bullets(ai_settings, screen, ship, bullets):  # 若没有达到限制，就发射子弹
@@ -152,6 +154,13 @@ def change_fleet_direction(ai_settings, aliens):
     for alien in aliens.sprites():
         alien.rect.y += ai_settings.fleet_drop_speed
     ai_settings.fleet_direction *= -1
+
+
+def check_high_score(stats, sb):
+    # 是否产生了更新最高得分
+    if stats.score > stats.high_score:
+        stats.high_score = stats.score
+        sb.prep_high_score()
 
 
 def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_button):
