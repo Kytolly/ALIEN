@@ -58,26 +58,29 @@ def fire_bullets(ai_settings, screen, ship, bullets):  # 若没有达到限制�
         bullets.add(new_bullet)
 
 
-def update_aliens(ai_settings, stats, screen, ship, aliens, bullets):  # 更新所有外星人的位置
+def update_aliens(ai_settings, stats, screen, sb, ship, aliens, bullets):  # 更新所有外星人的位置
     check_fleet_edges(ai_settings, aliens)
     aliens.update()
     # 检测alien和飞船碰撞
     if pygame.sprite.spritecollideany(ship, aliens):
-        ship_hit(ai_settings, stats, screen, ship, aliens, bullets)
-    check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets)
+        ship_hit(ai_settings, stats, screen, sb, ship, aliens, bullets)
+    check_aliens_bottom(ai_settings, stats, screen, sb, ship, aliens, bullets)
 
 
-def check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets):  # 检查有无外星人到达底端
+def check_aliens_bottom(ai_settings, stats, screen, sb, ship, aliens, bullets):  # 检查有无外星人到达底端
     screen_rect = screen.get_rect()
     for alien in aliens.sprites():
         if alien.rect.bottom >= screen_rect.bottom:
-            ship_hit(ai_settings, stats, screen, ship, aliens, bullets)
+            ship_hit(ai_settings, stats, screen, sb, ship, aliens, bullets)
             break
 
 
-def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):  # 响应飞船被撞击，或者外星人触底，称为游戏重置
+def ship_hit(ai_settings, stats, screen, sb, ship, aliens, bullets):  # 响应飞船被撞击，或者外星人触底，称为游戏重置
     if stats.ship_left > 0:
         stats.ship_left -= 1
+        # 更新记分牌
+        sb.prep_ships()
+
         aliens.empty()
         bullets.empty()
         create_fleet(ai_settings, screen, ship, aliens)  # 创建一群新的外星人
@@ -142,6 +145,7 @@ def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens,
         sb.prep_score()
         sb.prep_high_score()
         sb.prep_level()
+        sb.prep_ships()
         # 清空外星人和子弹，生成新的alien，飞船居中
         aliens.empty()
         bullets.empty()
