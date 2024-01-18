@@ -12,12 +12,13 @@ class ScoreBoard:
         self.text_color = (30, 30, 30)
         self.font = pygame.font.SysFont(None, 48)
 
-        # 准备初始得分的图像
+        # 准备初始得分等级的图像
         self.score_image = None
         self.score_rect = None
         self.high_score_rect = None
         self.prep_score()
         self.prep_high_score()
+        self.prep_level()
 
     def prep_score(self):
         rounded_score = int(round(self.stats.score, -1))
@@ -38,8 +39,14 @@ class ScoreBoard:
         self.high_score_rect.centerx = self.screen_rect.centerx
         self.high_score_rect.top = self.score_rect.top
 
+    def prep_level(self):
+        self.level_image = self.font.render(str(self.stats.level), True, self.text_color, self.ai_settings.bg_color)
+        self.level_rect = self.level_image.get_rect()
+        self.level_rect.right = self.score_rect.right
+        self.level_rect.top = self.score_rect.bottom + 10
+
     def show_score(self):
         self.screen.blit(self.score_image, self.score_rect)
         self.screen.blit(self.high_score_image, self.high_score_rect)
-
+        self.screen.blit(self.level_image, self.level_rect)
 
