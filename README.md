@@ -1,2 +1,5 @@
-# ALIEN
-Pygame ALIENT INVASION
+# ALIEN_INVASION
+* 本项目摘自于「Python编程:  从入门到实践」的第十二章到第十四章
+* 完善了计分系统中的历史最高分的功能，将最高分数据存储在了`data.json`中
+* 跟着敲代码的练手的项目，为了方便托管到了git上
+* 在`/dist`文件夹里有用pyinstaller打包过后的可执行文件
